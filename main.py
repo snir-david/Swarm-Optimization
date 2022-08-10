@@ -1,16 +1,20 @@
-# This is a sample Python script.
+import Problem
+from Swarm import *
+from Problem import *
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+SWARM_SIZE = 10
+W = 0.1
+C1 = 0.1
+C2 = 0.8
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def find_best_sol(swarm: Swarm):
+    while True:
+        for particle in swarm.swarm:
+            swarm.new_position(particle)
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    prob = Function(2, True)
+    swarm = Swarm(SWARM_SIZE, W, C1, C2, prob.fitness, prob.dim)
+    find_best_sol(swarm)
