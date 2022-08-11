@@ -3,19 +3,16 @@ import numpy as np
 
 class Particle:
 
-    def __init__(self, w, c1, c2, swarm):
+    def __init__(self, swarm, init_func):
         self.fitness = 0
         self.local_best_fitness = 0
-        self.local_best_position = self.position = np.random.uniform(0, 100, 2)
+        self.local_best_position = self.position = init_func()
         self.velocity = 0
-        self.w = w
-        self.c1 = c1
-        self.c2 = c2
         self.swarm = swarm
 
 
 class Swarm:
-    def __init__(self, size, w, c1, c2, fitness, prob_dim, is_min_prob=True, need_init: bool = True):
+    def __init__(self, size, w, c1, c2, problem, is_min_prob=True, need_init: bool = True):
         self.swarm_size = size
         self.swarm = []
         self.global_best_fitness = 0
@@ -25,15 +22,14 @@ class Swarm:
         self.c1 = c1
         self.c2 = c2
         self.is_min_prob = is_min_prob
-        self.fitness = fitness
-        self.dim = prob_dim
+        self.problem = problem
         if need_init:
             self.init_swarm()
 
     def init_swarm(self):
         for i in range(self.swarm_size):
-            p = Particle(self.w, self.c1, self.c2, self)
-            p.fitness = self.fitness(p.position[0], p.position[1])
+            p = Particle(self, self.problem.init_range)
+            p.fitness = self.problem.solution_fitness(p.position)
             self.swarm.append(p)
             if p.fitness > self.global_best_fitness:
                 self.set_global_best(p)
@@ -49,7 +45,7 @@ class Swarm:
         self.new_velocity(p)
         x_t_1 = p.position + p.velocity
         p.position = x_t_1
-        p.fitness = self.fitness(p.position[0], p.position[1])
+        p.fitness = self.problem.solution_fitness(p.position)
         if p.fitness > self.global_best_fitness:
             self.global_best_fitness = p.fitness
             self.global_best_position = p.position
