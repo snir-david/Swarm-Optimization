@@ -16,6 +16,6 @@ def find_best_sol(swarm: Swarm):
 
 
 if __name__ == '__main__':
-    f1 = Func1(2, 0, 100)
+    f1 = FunctionOptimization(2, 0, 100)
     swarm = Swarm(SWARM_SIZE, W, C1, C2, f1)
     find_best_sol(swarm)
