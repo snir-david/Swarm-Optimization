@@ -70,7 +70,7 @@ class Swarm:
             if f1 < f2:
                 return True
             return False
-        else: # max problem
+        else:  # max problem
             if f1 > f2:
                 return True
             return False
